@@ -9,7 +9,7 @@ import AVFoundation
 import SoundAnalysis
 import Foundation
 
-/// Идентификаторы звуков из встроенной модели Apple (version1), релевантные для «кто-то в двери».
+// Идентификаторы звуков из встроенной модели Apple (version1), релевантные для «кто-то в двери».
 private enum DoorSoundIdentifier: String, CaseIterable {
     case doorBell = "door_bell"
     case knock = "knock"
@@ -20,14 +20,14 @@ private enum DoorSoundIdentifier: String, CaseIterable {
     var raw: String { rawValue }
 }
 
-/// Сервис анализа звука: микрофон → классификация → callback при обнаружении звонка/стука.
+// Сервис анализа звука: микрофон → классификация → callback при обнаружении звонка/стука.
 final class SoundAnalyzerService: NSObject {
-    /// Минимальная уверенность (0...1) для срабатывания.
+    // Минимальная уверенность (0...1) для срабатывания.
     var confidenceThreshold: Double = 0.6
-    /// Минимальный интервал между срабатываниями (секунды), чтобы не спамить уведомлениями.
+    // Минимальный интервал между срабатываниями (секунды), чтобы не спамить уведомлениями.
     var cooldownInterval: TimeInterval = 10.0
 
-    /// Вызывается при обнаружении звука «звонок/стук в дверь» (на главном потоке).
+    // Вызывается при обнаружении звука «звонок/стук в дверь» (на главном потоке).
     var onDoorSoundDetected: (() -> Void)?
 
     private let audioEngine = AVAudioEngine()
@@ -41,7 +41,7 @@ final class SoundAnalyzerService: NSObject {
         super.init()
     }
 
-    /// Запрашивает доступ к микрофону и возвращает результат.
+    // Запрашивает доступ к микрофону и возвращает результат.
     func requestMicrophonePermission() async -> Bool {
         await withCheckedContinuation { continuation in
             AVAudioApplication.requestRecordPermission { granted in
@@ -50,7 +50,7 @@ final class SoundAnalyzerService: NSObject {
         }
     }
 
-    /// Запускает прослушивание микрофона и анализ в реальном времени.
+    // Запускает прослушивание микрофона и анализ в реальном времени.
     func start() throws {
         guard !isRunning else { return }
 
@@ -83,7 +83,7 @@ final class SoundAnalyzerService: NSObject {
         isRunning = true
     }
 
-    /// Останавливает анализ и снимает тап с микрофона.
+    // Останавливает анализ и снимает тап с микрофона.
     func stop() {
         guard isRunning else { return }
         audioEngine.inputNode.removeTap(onBus: 0)

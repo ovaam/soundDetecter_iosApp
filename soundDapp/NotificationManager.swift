@@ -17,7 +17,7 @@ final class NotificationManager {
 
     private init() {}
 
-    /// Запрашивает разрешение на уведомления.
+    // Запрашивает разрешение на уведомления.
     func requestAuthorization() async -> Bool {
         let center = UNUserNotificationCenter.current()
         let options: UNAuthorizationOptions = [.alert, .sound, .badge]
@@ -29,7 +29,7 @@ final class NotificationManager {
         }
     }
 
-    /// Отправляет локальное уведомление «Кто-то в двери».
+    // Отправляет локальное уведомление «Кто-то в двери».
     func sendDoorSoundNotification() {
         let content = UNMutableNotificationContent()
         content.title = notificationTitle
